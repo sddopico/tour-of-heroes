@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class MessageService {
   // Class props
-  messages: string [] = [];
+  messages: string[] = [];
 
   constructor() { }
 
