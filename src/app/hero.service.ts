@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Hero } from './hero';
 import { HEROES } from './mock-heroes';
@@ -11,9 +12,13 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class HeroService {
+  // Class props
+  private heroesURL = 'api/heroes';
 
   // Constructor - instantiates messageService
-  constructor(private messageService: MessageService) { }
+  constructor(
+    private http: HttpClient,
+    private messageService: MessageService) { }
 
 
   // Component methods
@@ -29,5 +34,11 @@ export class HeroService {
     // TODO: send message _after_ fetching hero
     this.messageService.add(`HeroService: fetched hero id=${id}`);
     return of(HEROES.find(hero => hero.id === id));
+  }
+
+  // Private log method for messageService instance
+  // tslint:disable-next-line: typedef
+  private log(message: string) {
+    this.messageService.add(`HeroService: ${message}`);
   }
 }
