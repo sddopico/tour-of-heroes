@@ -23,11 +23,25 @@ export class HeroesComponent implements OnInit {
   }
 
 
+
+  // Component methods
+
   // Get hero array from HeroService - instantiated in ngOnInit()
   getHeroes(): void {
     this.heroService.getHeroes()
       .subscribe(heroes => this.heroes = heroes);
   }
 
+  // Add user-input hero to heroes db
+  add(name: string): void {
+    name = name.trim();
+    if (!name) {
+      return;
+    }
+    this.heroService.addHero({ name } as Hero)
+      .subscribe(hero => {
+        this.heroes.push(hero);
+      });
+  }
 }
 
