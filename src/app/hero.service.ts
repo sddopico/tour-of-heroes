@@ -15,6 +15,9 @@ import { catchError, map, tap } from 'rxjs/operators';
 export class HeroService {
   // Class props
   private heroesURL = 'api/heroes';
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json'})
+  };
 
   // Constructor - instantiates messageService
   constructor(
@@ -72,5 +75,13 @@ export class HeroService {
       // Let app keep running by returning an empty result
       return of(result as T);
     };
+  }
+
+  // Update hero record w/ user input
+  updateHero(hero: Hero): Observable<any> {
+    return this.http.put(this.heroesURL, hero, this.httpOptions).pipe(
+      tap(_ => this.log(`updated hero id=${hero.id}`)),
+      catchError(this.handleError<any>(`updateHero`))
+    );
   }
 }
