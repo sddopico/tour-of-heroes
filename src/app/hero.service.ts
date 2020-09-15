@@ -22,11 +22,13 @@ export class HeroService {
     private messageService: MessageService
   ) {}
 
+
+
   // Component methods
+
   // Returns observable of heroes array
   getHeroes(): Observable<Hero[]> {
-    // TODO: send message _after_ fetching heroes
-    this.messageService.add('HeroService: fetched heroes');
+    // GET Hhroes from server
     return this.http
       .get<Hero[]>(this.heroesURL)
       .pipe(
