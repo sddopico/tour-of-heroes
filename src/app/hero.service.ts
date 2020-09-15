@@ -37,9 +37,12 @@ export class HeroService {
 
   // Takes id: number as a param, returns observable of specific hero by id in array
   getHero(id: number): Observable<Hero> {
-    // TODO: send message _after_ fetching hero
-    this.messageService.add(`HeroService: fetched hero id=${id}`);
-    return of(HEROES.find((hero) => hero.id === id));
+    // GET hero by id. Will 404 if id not found
+    const url = `${this.heroesURL}/${id}`;
+    return this.http.get<Hero>(url).pipe(
+      tap(_ => this.log(`fetched hero id=${id}`)),
+      catchError(this.handleError<Hero>(`getHero id=${id}`))
+    );
   }
 
   // Private log method for messageService instance
