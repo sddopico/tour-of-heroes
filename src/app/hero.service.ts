@@ -29,7 +29,10 @@ export class HeroService {
     this.messageService.add('HeroService: fetched heroes');
     return this.http
       .get<Hero[]>(this.heroesURL)
-      .pipe(catchError(this.handleError<Hero[]>('getHeroes', [])));
+      .pipe(
+        tap(_ => this.log('fetched heroes')),
+        catchError(this.handleError<Hero[]>('getHeroes', []))
+        );
   }
 
   // Takes id: number as a param, returns observable of specific hero by id in array
