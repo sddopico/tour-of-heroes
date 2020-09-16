@@ -98,4 +98,17 @@ export class HeroService {
       catchError(this.handleError<Hero>('deleteHero'))
     );
   }
+
+  // Search call to heroes db
+  searchHeroes(term: string): Observable<Hero[]> {
+    if (!term.trim()) {
+      return of([]);
+    }
+    return this.http.get<Hero[]>(`${this.heroesURL}/?name=${term}`).pipe(
+      tap(x => x.length ?
+        this.log(`found heroes matching "${term}"`) :
+        this.log(`no hereos matching "${term}"`)),
+        catchError(this.handleError<Hero[]>('searchHeroes', []))
+    );
+  }
 }
